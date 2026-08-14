@@ -1,6 +1,5 @@
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
-from fastapi.templating import Jinja2Templates
 from src.config import settings, logger
 from src.database import init_db
 from src.routers import api, web
@@ -15,9 +14,6 @@ app = FastAPI(
 
 # 挂载静态文件
 app.mount("/static", StaticFiles(directory="src/static"), name="static")
-
-# 配置模板
-templates = Jinja2Templates(directory="src/templates")
 
 # 注册路由
 app.include_router(api.router)

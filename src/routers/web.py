@@ -5,7 +5,7 @@ Web 页面路由
 from fastapi import APIRouter, Request, Depends
 from sqlalchemy.orm import Session
 from src.database import get_db
-from src.main import templates
+from src.template_config import templates
 from src.models import Article, Feed
 from src.services import summary_service
 from datetime import datetime, timedelta
