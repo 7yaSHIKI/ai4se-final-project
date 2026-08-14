@@ -18,13 +18,29 @@ jobs:
       run: |
         docker build -t rss-aggregator:${{ github.sha }} .
 
-    - name: Test Docker image
+    - name: Start Docker container
       run: |
         docker run -d -p 8000:8000 \
           -e OPENAI_API_KEY=test-key \
           --name test-container \
           rss-aggregator:${{ github.sha }}
-        sleep 30
+        sleep 5
+
+    - name: Check container logs
+      run: |
+        docker logs test-container
+
+    - name: Check container status
+      run: |
+        docker ps -a
+
+    - name: Test health endpoint
+      run: |
+        sleep 25
         curl -f http://localhost:8000/health || exit 1
-        docker stop test-container
-        docker rm test-container
+
+    - name: Cleanup
+      if: always()
+      run: |
+        docker stop test-container || true
+        docker rm test-container || true
