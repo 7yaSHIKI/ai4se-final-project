@@ -7,6 +7,11 @@ import httpx
 import json
 
 
+def get_all_feeds(db: Session) -> list[Feed]:
+    """获取所有订阅源"""
+    return db.query(Feed).all()
+
+
 async def validate_rss_url(url: str) -> tuple[bool, str]:
     """验证 RSS URL 是否有效"""
     try:
