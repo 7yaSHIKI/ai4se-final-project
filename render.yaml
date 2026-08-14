@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: rss-aggregator
+    env: docker
+    plan: free
+    region: singapore
+    envVars:
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: PORT
+        value: 8000
+      - key: DATABASE_URL
+        value: sqlite:///./data/rss_aggregator.db
+      - key: LOG_LEVEL
+        value: INFO
+      - key: RSS_FETCH_INTERVAL
+        value: 3600
+      - key: ARTICLE_RETENTION_DAYS
+        value: 7
+    healthCheckPath: /health
