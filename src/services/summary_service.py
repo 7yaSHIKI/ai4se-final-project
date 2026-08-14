@@ -10,8 +10,11 @@ from typing import Tuple
 import re
 
 
-# 初始化 OpenAI 客户端
-client = AsyncOpenAI(api_key=settings.OPENAI_API_KEY)
+# 初始化 OpenAI 客户端（兼容 DeepSeek）
+client = AsyncOpenAI(
+    api_key=settings.OPENAI_API_KEY,
+    base_url="https://api.deepseek.com"
+)
 
 
 def strip_html_tags(text: str) -> str:
@@ -41,9 +44,9 @@ async def generate_summary(content: str, title: str = "") -> Tuple[bool, str]:
         # 构建提示词
         prompt = f"请用 100-200 字总结以下文章的核心内容：\n\n标题：{title}\n\n内容：{clean_content}"
 
-        # 调用 OpenAI API
+        # 调用 DeepSeek API
         response = await client.chat.completions.create(
-            model="gpt-4o-mini",
+            model="deepseek-chat",
             messages=[
                 {"role": "system", "content": "你是一个专业的内容总结助手，擅长提取文章核心信息。"},
                 {"role": "user", "content": prompt}
