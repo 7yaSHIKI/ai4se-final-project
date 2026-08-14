@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="filters">
+    <button class="filter-btn {% if not current_tag %}active{% endif %}" data-tag="">全部</button>
+    {% for tag in tags %}
+    <button class="filter-btn {% if current_tag == tag %}active{% endif %}" data-tag="{{ tag }}">{{ tag }}</button>
+    {% endfor %}
+</div>
+
+<div id="articles-container">
+    {% if articles %}
+        {% for article in articles %}
+        <div class="article-card">
+            <h2 class="article-title">
+                <a href="{{ article.link }}" target="_blank" rel="noopener noreferrer">{{ article.title }}</a>
+            </h2>
+            <div class="article-meta">
+                <span class="tag">{{ article.feed_name }}</span>
+                <span>{{ article.published_at.strftime('%Y-%m-%d %H:%M') }}</span>
+            </div>
+            <div class="article-summary">
+                {% if article.summary %}
+                    {{ article.summary }}
+                {% else %}
+                    <em>⏳ 摘要生成中...</em>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
+        <div class="article-card">
+            <p style="text-align: center; color: var(--text-light);">
+                暂无文章。请先在<a href="/feeds" style="color: var(--primary);">订阅管理</a>添加订阅源，然后点击"🔄 刷新"按钮。
+            </p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

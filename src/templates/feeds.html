@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+
+{% block title %}订阅管理 - RSS Aggregator{% endblock %}
+
+{% block content %}
+<h2 style="margin-bottom: 1.5rem;">订阅管理</h2>
+
+<div class="add-feed-form">
+    <h3>添加订阅</h3>
+    <form id="addFeedForm">
+        <input type="text" id="feedUrl" placeholder="RSS URL（如 https://example.com/rss）" required>
+        <input type="text" id="feedName" placeholder="订阅名称（可选，留空自动提取）">
+        <input type="text" id="feedTags" placeholder="标签（逗号分隔，如：技术,新闻）">
+        <button type="submit">添加</button>
+    </form>
+</div>
+
+<div class="feeds-list">
+    <h3>订阅列表 ({{ feeds|length }})</h3>
+    {% if feeds %}
+        {% for feed in feeds %}
+        <div class="feed-item">
+            <div class="feed-info">
+                <h4>{{ feed.name }}</h4>
+                <p>{{ feed.url }}</p>
+                <div class="feed-tags">
+                    {% if feed.tags %}
+                        {% set tags_list = feed.tags|from_json %}
+                        {% for tag in tags_list %}
+                        <span class="tag">{{ tag }}</span>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+            <button onclick="deleteFeed({{ feed.id }})" class="btn-delete">删除</button>
+        </div>
+        {% endfor %}
+    {% else %}
+        <p style="text-align: center; color: var(--text-light); padding: 2rem 0;">
+            还没有订阅源，快添加一个吧！
+        </p>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.getElementById('addFeedForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const url = document.getElementById('feedUrl').value.trim();
+    const name = document.getElementById('feedName').value.trim();
+    const tags = document.getElementById('feedTags').value.trim();
+
+    if (!url) {
+        alert('请输入 RSS URL');
+        return;
+    }
+
+    const btn = e.target.querySelector('button');
+    btn.disabled = true;
+    btn.textContent = '添加中...';
+
+    try {
+        const response = await fetch('/api/feeds', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                url: url,
+                name: name || url,
+                tags: tags
+            })
+        });
+
+        if (response.ok) {
+            alert('添加成功！');
+            location.reload();
+        } else {
+            const error = await response.json();
+            alert('添加失败：' + error.detail);
+        }
+    } catch (error) {
+        alert('添加失败：' + error.message);
+    } finally {
+        btn.disabled = false;
+        btn.textContent = '添加';
+    }
+});
+
+async function deleteFeed(id) {
+    if (!confirm('确定删除该订阅源吗？相关文章也会被删除。')) return;
+
+    try {
+        const response = await fetch(`/api/feeds/${id}`, {method: 'DELETE'});
+        if (response.ok) {
+            alert('删除成功！');
+            location.reload();
+        } else {
+            const error = await response.json();
+            alert('删除失败：' + error.detail);
+        }
+    } catch (error) {
+        alert('删除失败：' + error.message);
+    }
+}
+</script>
+{% endblock %}
