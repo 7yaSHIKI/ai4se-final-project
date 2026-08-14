@@ -29,6 +29,13 @@ async def startup_event():
     """应用启动事件"""
     init_db()
     logger.info("✓ 数据库初始化完成")
+
+    # 启动后台任务
+    from src.background_tasks import background_fetch_task, background_cleanup_task
+    asyncio.create_task(background_fetch_task())
+    asyncio.create_task(background_cleanup_task())
+    logger.info("✓ 后台任务已启动")
+
     logger.info(f"✓ 应用启动成功，监听端口 {settings.PORT}")
 
 
