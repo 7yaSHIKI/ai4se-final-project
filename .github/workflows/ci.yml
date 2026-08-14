@@ -24,7 +24,7 @@ jobs:
           -e OPENAI_API_KEY=test-key \
           --name test-container \
           rss-aggregator:${{ github.sha }}
-        sleep 10
+        sleep 30
         curl -f http://localhost:8000/health || exit 1
         docker stop test-container
         docker rm test-container
