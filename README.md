@@ -4,10 +4,16 @@
 
 订阅多个信息源（博客、新闻），AI 自动生成摘要，在统一界面查看，节省阅读时间，精准获取信息。
 
+## 🌐 在线演示
+
+**线上地址**：https://ai4se-final-project.onrender.com
+
+> 注意：Free tier 实例会在闲置后休眠，首次访问可能需要等待 50 秒唤醒
+
 ## ✨ 功能特性
 
 - 📰 **订阅管理**：添加/删除 RSS 订阅源，支持自定义标签
-- 🤖 **AI 摘要**：使用 OpenAI GPT-4o-mini 自动生成 100-200 字摘要
+- 🤖 **AI 摘要**：使用 DeepSeek API 自动生成 100-200 字中文摘要
 - 🏷️ **标签筛选**：按标签分类查看文章
 - 🔄 **自动刷新**：每小时自动抓取新文章
 - 🗑️ **自动清理**：保留最近 7 天文章，自动删除过期内容
@@ -17,10 +23,10 @@
 
 - **后端**：FastAPI 0.104.1 + Python 3.11
 - **数据库**：SQLite + SQLAlchemy 2.0
-- **AI**：OpenAI GPT-4o-mini
+- **AI**：DeepSeek API (deepseek-chat)
 - **RSS 解析**：feedparser 6.0.10
 - **前端**：原生 HTML/CSS/JavaScript + Jinja2
-- **部署**：Docker + Render/Railway
+- **部署**：Docker + Render
 
 ## 📦 快速开始
 
@@ -41,12 +47,14 @@ pip install -r requirements.txt
 
 3. **配置环境变量**
 
-复制 `.env.example` 为 `.env`，填入你的 OpenAI API Key：
+复制 `.env.example` 为 `.env`，填入你的 DeepSeek API Key：
 
 ```bash
 cp .env.example .env
-# 编辑 .env 文件，填入：OPENAI_API_KEY=your_api_key_here
+# 编辑 .env 文件，填入：OPENAI_API_KEY=your_deepseek_api_key_here
 ```
+
+> 注意：虽然变量名为 OPENAI_API_KEY，但应填入 DeepSeek API Key
 
 4. **初始化数据库**
 
@@ -131,7 +139,7 @@ git push origin main
 3. **设置环境变量**
 
 在 Render 控制台添加环境变量：
-- `OPENAI_API_KEY`: 你的 OpenAI API Key
+- `OPENAI_API_KEY`: 你的 DeepSeek API Key（从 https://platform.deepseek.com 获取）
 
 4. **部署**
 
@@ -153,14 +161,16 @@ git push origin main
 
 ## 💰 成本估算
 
-使用 OpenAI GPT-4o-mini：
-- 输入：$0.150 / 1M tokens
-- 输出：$0.600 / 1M tokens
+使用 DeepSeek API (deepseek-chat)：
+- 输入（缓存未命中）：$0.22 / 1M tokens
+- 输出：$0.66 / 1M tokens
 
 **月度成本**（50 篇文章/天）：
-- 输入：~30,000 tokens/月 = $0.0045
-- 输出：~150,000 tokens/月 = $0.09
-- **总计**：~$0.10/月
+- 输入：~30,000 tokens/月 = $0.0066
+- 输出：~150,000 tokens/月 = $0.099
+- **总计**：~$0.11/月
+
+> 比 OpenAI GPT-4o-mini 更经济实惠
 
 ## 📖 项目文档
 
@@ -181,6 +191,6 @@ MIT License
 ## 🙏 致谢
 
 - [FastAPI](https://fastapi.tiangolo.com/) - 现代 Python Web 框架
-- [OpenAI](https://openai.com/) - AI 摘要生成
+- [DeepSeek](https://www.deepseek.com/) - AI 摘要生成
 - [feedparser](https://feedparser.readthedocs.io/) - RSS 解析
 - [Superpowers](https://github.com/cline/superpowers) - 开发方法论
