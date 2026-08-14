@@ -186,7 +186,9 @@ MIT License
 
 ## 👨‍💻 作者
 
-7yaSHIKI - AI4SE 期末项目
+蒲奕汀（251240113）- AI4SE 期末项目
+
+GitHub: [@7yaSHIKI](https://github.com/7yaSHIKI)
 
 ## 🙏 致谢
 
