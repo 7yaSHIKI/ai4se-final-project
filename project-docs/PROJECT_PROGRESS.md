@@ -42,27 +42,32 @@
 
 ## 📋 当前任务
 
+### 项目选题已确定 ✅
+
+**项目名称**：RSS 聚合器 + AI 摘要  
+**英文名称**：AI-Powered RSS Aggregator  
+**30秒说明**：订阅多个信息源（博客、新闻），AI 自动生成摘要，在统一界面查看，节省阅读时间，精准获取信息。
+
+**核心功能模块（3个）**：
+1. **订阅管理**：添加/删除/查看 RSS 订阅源，分类管理
+2. **内容抓取与 AI 摘要**：定时抓取 RSS，调用 LLM 生成摘要，去重存储
+3. **WebUI 展示**：文章列表、摘要显示、筛选、标记已读
+
+**技术栈初步方案**：
+- 后端：Python + FastAPI
+- RSS 解析：feedparser
+- LLM：OpenAI API
+- 存储：SQLite 或 JSON
+- 前端：HTML + CSS + JavaScript（或 Jinja2 模板）
+- 部署：Docker
+
+---
+
 ### 立即执行（今天）
 
-1. **安装 Superpowers 插件**
-   ```bash
-   /plugin install superpowers@claude-plugins-official
-   ```
+**🎯 阶段 1：Brainstorming - 需求分析与设计**
 
-2. **创建 GitHub 仓库**
-   - 仓库名称：待定（根据选题）
-   - 可见性：公开
-   - 初始化：README + .gitignore + LICENSE
-
-3. **确定项目选题**
-   - 推荐选项：
-     - ⭐⭐⭐⭐⭐ AI 驱动的代码审查助手
-     - ⭐⭐⭐⭐⭐ 智能文档生成器
-     - ⭐⭐⭐⭐⭐ 个人数据仪表盘
-   - 决策因素：
-     - 能在 30 秒说清"为什么有人用"
-     - 至少 3 个功能模块
-     - 技术栈相对熟悉
+我将按照 Superpowers brainstorming 技能的要求，通过提问来帮你完善：
 
 ---
 
